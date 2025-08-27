@@ -1,141 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LETTRE A AURELIE</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-       background: linear-gradient(180deg, #0d0d1b, #1b263b);
-      font-family: 'Courier New', monospace;
-      color: #e0e0ff;
-      overflow-y: auto;
-      padding: 15px;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LETTER</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #0a0a23, #1b263b);
+    font-family: 'Courier New', monospace;
+    color: #e0e0ff;
+    overflow-y: auto;
+    padding: 15px;
+    position: relative;
+  }
 
-    .sky {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="20%" r="50" fill="rgba(255, 255, 255, 0.1)" /></svg>') no-repeat center;
-      background-size: 200px;
-      animation: moonGlow 10s ease-in-out infinite;
-      z-index: 1;
-    }
+  h1 {
+    margin: 20px 0 10px 0;
+    font-size: 2em;
+    color: #00d4ff;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
 
+  .letter-container {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    max-width: 95%;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    z-index: 1;
+    font-size: 1em;
+    position: relative;
+  }
+
+  @media (min-width: 600px) {
     .letter-container {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 15px;
-      border-radius: 12px;
-      max-width: 95%;
-      width: 100%;
-      text-align: left;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.15);
-      z-index: 3;
-      position: relative;
-      font-size: 1em;
+      padding: 25px;
+      max-width: 650px;
+      font-size: 1.2em;
     }
+  }
 
-    @media (min-width: 600px) {
-      .letter-container {
-        padding: 25px;
-        max-width: 650px;
-        font-size: 1.2em;
-      }
-    }
+  .letter-line {
+    opacity: 0;
+    margin-bottom: 0.8em;
+    animation: fadeLine 1s forwards;
+  }
 
-    .letter-text {
-      line-height: 1.6;
-      white-space: pre-wrap;
+  @keyframes fadeLine {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Petites étoiles légères */
+  .star {
+    position: fixed;
+    top: -5px;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+    animation: fall linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
       opacity: 0;
-      animation: fadeIn 1.5s ease-in forwards;
     }
-
-    .typewriter {
-      border-right: 2px solid #00d4ff;
-      display: inline-block;
-      animation: blink 0.6s step-end infinite;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
-    @keyframes moonGlow {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.1); }
-    }
-
-    .star, .heart {
-      position: absolute;
-      z-index: 2;
-      animation: fall linear infinite;
-    }
-
-    .star {
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(255,255,255,0.8);
-    }
-
-    .heart {
-      width: 10px;
-      height: 10px;
-      background: transparent;
-      transform: rotate(-45deg);
-    }
-
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: #ff4d6d;
-      border-radius: 50%;
-      box-shadow: 0 0 5px #ff4d6d;
-    }
-
-    .heart::before { top: -5px; left: 0; }
-    .heart::after { left: 5px; top: 0; }
-
-    @keyframes fall {
-      0% { transform: translateY(-15vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
-    }
-
-    .parallax-layer {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="sky"></div>
-  <div class="parallax-layer" id="star-layer"></div>
-  <div class="letter-container">
-    <div class="letter-text" id="letter"></div>
-  </div>
+  <h1>LETTER</h1>
+  <div class="letter-container" id="letter-container"></div>
 
   <script>
+    // Lettre
     const letterText = `Je sais… parfois je donne l’impression d’être froid.
 Ou insensible, un peu du genre “je m’en fous”.
 C’est vrai, je ne suis pas parfait, et j’ai toujours eu cette tendance à m’éloigner des gens qui comptent.
@@ -154,49 +107,27 @@ Ce message est pour toi.
 Ca me fout même un peu la honte. Rigole pas
 Mais je voulais que ça existe. Que tu saches te fais pas des idées (ces juste du moi du FRANCK ) ........ Et tu me fais peur.`;
 
-    const letterElement = document.getElementById('letter');
-    const starLayer = document.getElementById('star-layer');
-    let index = 0;
+    const container = document.getElementById('letter-container');
+    const lines = letterText.split('\n');
+    lines.forEach((line, i) => {
+      const div = document.createElement('div');
+      div.className = 'letter-line';
+      div.textContent = line;
+      div.style.animationDelay = `${i * 0.3}s`;
+      container.appendChild(div);
+    });
 
-    const typingSpeed = window.innerWidth < 600 ? 80 : 40;
-
-    function typeWriter() {
-      if (index < letterText.length) {
-        letterElement.innerHTML = letterText.substring(0, index + 1) + '<span class="typewriter"></span>';
-        index++;
-        setTimeout(typeWriter, typingSpeed);
-      } else {
-        letterElement.innerHTML = letterText;
-      }
-    }
-
+    // Petites étoiles qui tombent
     function createStar() {
-      const isHeart = Math.random() < (window.innerWidth < 600 ? 0.1 : 0.35);
       const star = document.createElement('div');
-      star.className = isHeart ? 'heart' : 'star';
-      star.style.width = isHeart ? '10px' : `${Math.random()*4 + 2}px`;
-      star.style.height = isHeart ? '10px' : `${Math.random()*4 + 2}px`;
-      star.style.left = `${Math.random()*100}vw`;
-      star.style.animationDuration = `${Math.random()*4 + 2}s`;
-      star.style.animationDelay = `${Math.random()*3}s`;
-      starLayer.appendChild(star);
-      setTimeout(() => star.remove(), 6000);
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 5000); // retire après animation
     }
 
-    window.onload = () => {
-      setTimeout(typeWriter, 300);
-      const interval = window.innerWidth < 600 ? 500 : 150;
-      setInterval(createStar, interval);
-    };
-
-    // Parallax seulement sur desktop
-    if (window.innerWidth >= 600) {
-      document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 10;
-        const y = (e.clientY / window.innerHeight - 0.5) * 10;
-        starLayer.style.transform = `translate(${x}px, ${y}px)`;
-      });
-    }
+    setInterval(createStar, 300); // crée une étoile toutes les 0.3s
   </script>
 </body>
 </html>
