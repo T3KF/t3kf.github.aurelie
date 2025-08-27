@@ -7,16 +7,18 @@
   <style>
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       background: linear-gradient(180deg, #0a0a23, #1b263b);
       font-family: 'Courier New', monospace;
       color: #e0e0ff;
-      overflow: hidden;
+      overflow-y: auto; /* scroll possible */
       position: relative;
+      padding: 20px;
     }
+
     .sky {
       position: absolute;
       top: 0;
@@ -28,11 +30,13 @@
       animation: moonGlow 10s ease-in-out infinite;
       z-index: 1;
     }
+
     .letter-container {
       background: rgba(255, 255, 255, 0.05);
-      padding: 40px;
+      padding: 20px;
       border-radius: 15px;
-      max-width: 650px;
+      max-width: 90%;
+      width: 100%;
       text-align: left;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(12px);
@@ -40,47 +44,63 @@
       z-index: 3;
       position: relative;
       transform: translateZ(0);
+      font-size: 1.1em;
     }
+
+    @media (max-width: 600px) {
+      .letter-container {
+        font-size: 0.95em;
+        padding: 15px;
+      }
+    }
+
     .letter-text {
-      font-size: 1.3em;
       line-height: 1.7;
       white-space: pre-wrap;
       opacity: 0;
       animation: fadeIn 1.5s ease-in forwards;
     }
+
     .typewriter {
       border-right: 3px solid #00d4ff;
       box-shadow: 0 0 10px #00d4ff;
       animation: blink 0.6s step-end infinite;
       display: inline-block;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes blink {
       50% { border-color: transparent; box-shadow: none; }
     }
+
     @keyframes moonGlow {
       0%, 100% { opacity: 0.8; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.1); }
     }
+
     .star, .heart {
       position: absolute;
       z-index: 2;
       animation: fall linear infinite;
     }
+
     .star {
       background: #fff;
       border-radius: 50%;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
     }
+
     .heart {
       width: 12px;
       height: 12px;
       background: transparent;
       transform: rotate(-45deg);
     }
+
     .heart::before,
     .heart::after {
       content: '';
@@ -91,18 +111,22 @@
       border-radius: 50%;
       box-shadow: 0 0 10px #ff4d6d;
     }
+
     .heart::before {
       top: -6px;
       left: 0;
     }
+
     .heart::after {
       left: 6px;
       top: 0;
     }
+
     @keyframes fall {
       0% { transform: translateY(-20vh) rotate(0deg) translateZ(-10px); opacity: 1; }
       100% { transform: translateY(120vh) rotate(720deg) translateZ(-10px); opacity: 0; }
     }
+
     .parallax-layer {
       position: absolute;
       width: 100%;
@@ -118,6 +142,7 @@
   <div class="letter-container">
     <div class="letter-text" id="letter"></div>
   </div>
+
   <script>
     const letterText = `Je sais… parfois je donne l’impression d’être froid.
 Ou insensible, un peu du genre “je m’en fous”.
@@ -141,11 +166,13 @@ Mais je voulais que ça existe. Que tu saches te fais pas des idées (ces juste 
     const starLayer = document.getElementById('star-layer');
     let index = 0;
 
+    const typingSpeed = window.innerWidth < 600 ? 60 : 40;
+
     function typeWriter() {
       if (index < letterText.length) {
         letterElement.innerHTML = letterText.substring(0, index + 1) + '<span class="typewriter"></span>';
         index++;
-        setTimeout(typeWriter, 40);
+        setTimeout(typeWriter, typingSpeed);
       } else {
         letterElement.innerHTML = letterText;
       }
@@ -167,10 +194,12 @@ Mais je voulais que ça existe. Que tu saches te fais pas des idées (ces juste 
 
     window.onload = () => {
       setTimeout(typeWriter, 500);
-      setInterval(createStar, 150);
+      setInterval(() => {
+        const interval = window.innerWidth < 600 ? 300 : 150;
+        createStar();
+      }, window.innerWidth < 600 ? 300 : 150);
     };
 
-    // Parallax effect on mouse move
     document.addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 10;
       const y = (e.clientY / window.innerHeight - 0.5) * 10;
@@ -179,4 +208,3 @@ Mais je voulais que ça existe. Que tu saches te fais pas des idées (ces juste 
   </script>
 </body>
 </html>
-
