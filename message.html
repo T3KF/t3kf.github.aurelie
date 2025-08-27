@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LETTRE A AURELIE</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #0a0a23, #1b263b);
+      font-family: 'Courier New', monospace;
+      color: #e0e0ff;
+      overflow: hidden;
+      position: relative;
+    }
+    .sky {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50%" cy="20%" r="50" fill="rgba(255, 255, 255, 0.1)" /></svg>') no-repeat center;
+      background-size: 200px;
+      animation: moonGlow 10s ease-in-out infinite;
+      z-index: 1;
+    }
+    .letter-container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 650px;
+      text-align: left;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 3;
+      position: relative;
+      transform: translateZ(0);
+    }
+    .letter-text {
+      font-size: 1.3em;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+    .typewriter {
+      border-right: 3px solid #00d4ff;
+      box-shadow: 0 0 10px #00d4ff;
+      animation: blink 0.6s step-end infinite;
+      display: inline-block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; box-shadow: none; }
+    }
+    @keyframes moonGlow {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .star, .heart {
+      position: absolute;
+      z-index: 2;
+      animation: fall linear infinite;
+    }
+    .star {
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+    }
+    .heart {
+      width: 12px;
+      height: 12px;
+      background: transparent;
+      transform: rotate(-45deg);
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #ff4d6d;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ff4d6d;
+    }
+    .heart::before {
+      top: -6px;
+      left: 0;
+    }
+    .heart::after {
+      left: 6px;
+      top: 0;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-20vh) rotate(0deg) translateZ(-10px); opacity: 1; }
+      100% { transform: translateY(120vh) rotate(720deg) translateZ(-10px); opacity: 0; }
+    }
+    .parallax-layer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="parallax-layer" id="star-layer"></div>
+  <div class="letter-container">
+    <div class="letter-text" id="letter"></div>
+  </div>
+  <script>
+    const letterText = `Je sais… parfois je donne l’impression d’être froid.
+Ou insensible, un peu du genre “je m’en fous”.
+C’est vrai, je ne suis pas parfait, et j’ai toujours eu cette tendance à m’éloigner des gens qui comptent.
+Je ne sais pas pourquoi. Peut-être que c’est juste une façon de respirer.
+Je vois les hommes comme ils sont : des êtres faibles, qui se croient grands, qui se réfugient dans l’illusion d’être bons. Pourtant ni bien ni mal n’existent vraiment dans ce monde. On se donne des masques, on se cache derrière des valeurs… mais au fond, tout ça, c’est du vent.
+Et toi… je ne sais pas. Je n’arrive pas à te voir avec ce même visage-là.
+Je ne dis pas que tu es différente de toutes, mais tu es un cas à part.
+C’est ça qui me dérange, qui me fait peur. Parce que d’habitude, je sais mettre les gens dans une case. Mais toi, je n’y arrive pas.
+M’attacher aux gens, apprécier la vie à pleines dents… ce n’est pas ma tasse de thé.
+Je ne sais pas m’y prendre, je crois même t’en avoir déjà parlé.
+J’ai juste besoin de temps pour accepter que tout n’est pas toujours noir.
+Mais il faut que tu saches une chose : au fond de moi, tu comptes.
+Je pense à toi. Pas dans une logique de “to love”, pas non plus dans celle de “to friends” — j’ai jamais cru à cette pseudo-amitié filles-garçons et je n’y croirai jamais.
+Bref… ce n’est pas le sujet.
+Ce message est pour toi.
+Ca me fout même un peu la honte. Rigole pas
+Mais je voulais que ça existe. Que tu saches te fais pas des idées (ces juste du moi du FRANCK ) ........ Et tu me fais peur.`;
+
+    const letterElement = document.getElementById('letter');
+    const starLayer = document.getElementById('star-layer');
+    let index = 0;
+
+    function typeWriter() {
+      if (index < letterText.length) {
+        letterElement.innerHTML = letterText.substring(0, index + 1) + '<span class="typewriter"></span>';
+        index++;
+        setTimeout(typeWriter, 40);
+      } else {
+        letterElement.innerHTML = letterText;
+      }
+    }
+
+    function createStar() {
+      const isHeart = Math.random() < 0.35;
+      const star = document.createElement('div');
+      star.className = isHeart ? 'heart' : 'star';
+      star.style.width = isHeart ? '12px' : `${Math.random() * 5 + 2}px`;
+      star.style.height = isHeart ? '12px' : `${Math.random() * 5 + 2}px`;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.animationDuration = `${Math.random() * 4 + 2}s`;
+      star.style.animationDelay = `${Math.random() * 3}s`;
+      star.style.transform = `translateZ(${Math.random() * -20}px)`;
+      starLayer.appendChild(star);
+      setTimeout(() => star.remove(), 6000);
+    }
+
+    window.onload = () => {
+      setTimeout(typeWriter, 500);
+      setInterval(createStar, 150);
+    };
+
+    // Parallax effect on mouse move
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 10;
+      const y = (e.clientY / window.innerHeight - 0.5) * 10;
+      starLayer.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  </script>
+</body>
+</html>
+
